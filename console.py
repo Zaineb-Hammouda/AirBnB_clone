@@ -5,6 +5,8 @@ entry point of the command line interpreter
 """
 
 import cmd
+import models
+from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 import json
@@ -27,7 +29,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def emptyline(self):
-        return False
+        pass
 
     def do_create(self, line):
         """Create command: creates a new instance of BaseModel
@@ -37,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
 
         if (self.errors(line, "create") == 1):
             return False
-        instance = line()
+        instance = eval(line)
         instance.save()
         print(instance.id)
 
@@ -51,7 +53,10 @@ class HBNBCommand(cmd.Cmd):
             return False
         args = line.split()
         instances_dict = storage.all()
-        print(instances_dict[args[0].args[1]])
+        for i in range(len(args)):
+            if args[i][0] == '"':
+                args[i] = args[i].replace('"', "")
+        print(instances_dict[args[0] + '.' + args[1]])
 
     def do_destroy():
         """Delete command: deletes an instance based on the class name and id
@@ -84,15 +89,35 @@ class HBNBCommand(cmd.Cmd):
         if line == "":
             print("** class name missing **")
             return 1
-        elif args[0] not in cls_list:
+        if args[0] not in cls_list and cmd == "create":
             print("** class doesn't exist **")
             return 1
-        elif len(args) < 3 and cmd == "show":
+        elif cmd == "create":
+            return 0
+
+        if len(args) < 2 and cmd in ["show", "destroy"]:
             print("** instance id missing **")
             return 1
-        elif "id doesnt exist":
+
+        instances_dict = storage.all()
+        for i in range(len(args)):
+            if args[i][0] == '"':
+                args[i] = args[i].replace('"', "")
+        k = args[0] + '.' + args[1]
+
+        if k not in instances_dict and cmd in ["show", "destroy"]:
             print("** no instance found **")
             return 1
+        elif cmd in ["show", "destroy"]:
+            return 0
+
+        if len(args) < 3 and cmd == "update":
+            print("** attribute name missing **")
+            return 1
+        if len(args) < 4 and cmd == "update":
+            print("** value missing **")
+            return 1
+        return 0
 
 if __name__ == '__main__':
         HBNBCommand().cmdloop()
