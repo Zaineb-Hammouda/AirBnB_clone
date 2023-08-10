@@ -62,11 +62,13 @@ class FileStorage:
         try:
             with open(self.__file_path, 'r') as file:
                 json_dict = json.load(file)
+                """for optimization: we can remove obj_id as it's a useless var
+                instead: cls = key.split('.'); class_ = eval(cls[0]) """
                 for key, value in json_dict.items():
                     class_name, obj_id = key.split('.')
                     class_ = eval(class_name)
                     obj = class_(**value)
-                    self.__objects[key] = obj
+                    self.new(obj)
 
-        except FileNotFoundError:
+        except Exception:
             pass
