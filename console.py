@@ -8,6 +8,7 @@ import cmd
 import models
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 from models.engine.file_storage import FileStorage
 import json
 
@@ -123,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
     def errors(self, line, cmd):
         """manages error messages for user input"""
 
-        cls_list = ["BaseModel", "FileStorage"]
+        cls_list = ["BaseModel", "FileStorage", "User"]
         cmd_list = ["create", "show", "all", "destroy", "update"]
 
         if line == "":
