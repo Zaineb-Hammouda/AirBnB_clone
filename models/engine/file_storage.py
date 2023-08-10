@@ -6,6 +6,7 @@ JSON file to instances
 """
 
 from models.base_model import BaseModel
+from models.user import User
 import json
 
 
@@ -62,10 +63,10 @@ class FileStorage:
             with open(self.__file_path, 'r') as file:
                 json_dict = json.load(file)
                 for key, value in json_dict.items():
-                    class_name = key.split('.')[0]
-                    if class_name == "BaseModel":
-                        obj = BaseModel(**value)
-                        self.__objects[key] = obj
+                    class_name, obj_id = key.split('.')
+                    class_ = eval(class_name)
+                    obj = class_(**value)
+                    self.__objects[key] = obj
 
         except FileNotFoundError:
             pass
