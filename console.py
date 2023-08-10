@@ -124,7 +124,10 @@ class HBNBCommand(cmd.Cmd):
     def errors(self, line, cmd):
         """manages error messages for user input"""
 
-        cls_list = ["BaseModel", "FileStorage", "User"]
+        cls_list = [
+                "BaseModel", "User", "State", "City",
+                "Amenity", "Place", "Review"
+                ]
         cmd_list = ["create", "show", "all", "destroy", "update"]
 
         if line == "":
