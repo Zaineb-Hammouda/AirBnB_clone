@@ -5,12 +5,14 @@ entry point of the command line interpreter
 """
 
 import cmd
-import models
 from models import storage
-from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.review import Review
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
 from models.engine.file_storage import FileStorage
-import json
 
 
 class HBNBCommand(cmd.Cmd):
@@ -32,6 +34,14 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """an empty line + ENTER shouldn’t execute anything"""
         pass
+
+    def remove_quotations(self, args):
+        """removes the quotations from the arguments"""
+
+        for i in range(len(args)):
+            if args[i][0] == '"':
+                args[i] = args[i].replace('"', "")
+        return args
 
     def do_create(self, line):
         """Create command: creates a new instance of BaseModel
@@ -61,9 +71,7 @@ class HBNBCommand(cmd.Cmd):
         """get all instances's dicts from storage"""
         instances_dict = storage.all()
         """remove the quotations if string inputted has them"""
-        for i in range(len(args)):
-            if args[i][0] == '"':
-                args[i] = args[i].replace('"', "")
+        args = self.remove_quotations(args)
         print(instances_dict[args[0] + '.' + args[1]])
 
     def do_destroy(self, line):
@@ -75,9 +83,7 @@ class HBNBCommand(cmd.Cmd):
 
         instances_dict = storage.all()
         args = line.split()
-        for i in range(len(args)):
-            if args[i][0] == '"':
-                args[i] = args[i].replace('"', "")
+        args = self.remove_quotations(args)
         del instances_dict[args[0] + '.' + args[1]]
         storage.save()
 
@@ -91,9 +97,7 @@ class HBNBCommand(cmd.Cmd):
 
         args = line.split()
         instances_dict = storage.all()
-        for i in range(len(args)):
-            if args[i][0] == '"':
-                args[i] = args[i].replace('"', "")
+        args = self.remove_quotations(args)
         x = args[0] + '.' + args[1]
         new_key = args[2]
         new_value = args[3]
@@ -145,9 +149,7 @@ class HBNBCommand(cmd.Cmd):
             return 1
 
         instances_dict = storage.all()
-        for i in range(len(args)):
-            if args[i][0] == '"':
-                args[i] = args[i].replace('"', "")
+        args = self.remove_quotations(args)
         k = args[0] + '.' + args[1]
 
         if k not in instances_dict and cmd in ["show", "destroy", "update"]:
