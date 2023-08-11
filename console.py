@@ -202,7 +202,10 @@ class HBNBCommand(cmd.Cmd):
         if cls in cls_list:
             for k, v in console_commands.items():
                 if cmd == k:
-                    v(cls + ' ' + (" ".join(args)))
+                    if cmd == "count":
+                        v(cls)
+                    else:
+                        v(cls + ' ' + (" ".join(args)))
 
 
 if __name__ == '__main__':
