@@ -5,6 +5,7 @@ entry point of the command line interpreter
 """
 
 import cmd
+import sys
 from models import storage
 from models.user import User
 from models.state import State
@@ -82,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
         instances_dict = storage.all()
         for inst in instances_dict.values():
             if inst.__class__.__name__ == cls_name:
-                num_of_instances = 0
+                num_of_instances += 1
         print(num_of_instances)
 
     def do_destroy(self, line):
@@ -176,6 +177,32 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return 1
         return 0
+
+    def default(self, line):
+        """ this is the default function"""
+
+        cls_list = [
+                    "BaseModel", "User", "State", "City",
+                    "Amenity", "Place", "Review"
+                ]
+        console_commands = {
+                "show": self.do_show, "all": self.do_all,
+                "destroy": self.do_destroy, "update": self.do_update,
+                "create": self.do_create, "count": self.counter
+                }
+
+        new_line = line.maketrans(';.("),', "      ")
+        line = line.translate(new_line)
+        try:
+            cls, cmd, *args = line.split()
+        except Exception as e:
+            print("** Unknown syntax", file=sys.stderr)
+            return False
+
+        if cls in cls_list:
+            for k, v in console_commands.items():
+                if cmd == k:
+                    v(cls + ' ' + (" ".join(args)))
 
 
 if __name__ == '__main__':
