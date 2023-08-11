@@ -41,8 +41,8 @@ class HBNBCommand(cmd.Cmd):
         """removes the quotations from the arguments"""
 
         for i in range(len(args)):
-            if args[i][0] == '"':
-                args[i] = args[i].replace('"', "")
+            if args[i][0] in ('"', "'"):
+                args[i] = args[i].replace('"', "").replace("'", "")
         return args
 
     def do_create(self, line):
@@ -112,7 +112,12 @@ class HBNBCommand(cmd.Cmd):
         args = self.remove_quotations(args)
         x = args[0] + '.' + args[1]
         new_key = args[2]
-        new_value = args[3]
+        """ typecast only if it's a number so it can appear without quotes
+        in the dict """
+        if args[3].isdigit():
+            new_value = eval(args[3])
+        else:
+            new_value = args[3]
         setattr(instances_dict[x], new_key, new_value)
         storage.save()
 
@@ -191,19 +196,34 @@ class HBNBCommand(cmd.Cmd):
                 "create": self.do_create, "count": self.counter
                 }
 
-        new_line = line.maketrans(';.("),', "      ")
+        """ replace those delimeters with spaces"""
+        new_line = line.maketrans(";.(),{}:", "        ")
         line = line.translate(new_line)
+        """ seperate into args except if command doesn't exist"""
         try:
             cls, cmd, *args = line.split()
         except Exception as e:
             print("** Unknown syntax", file=sys.stderr)
             return False
 
+        """ loop over dictionnary of cmds and execute the appropriate method"""
         if cls in cls_list:
             for k, v in console_commands.items():
                 if cmd == k:
+                    """ count is seperate cause it takes only one arg:
+                    cls_name"""
                     if cmd == "count":
                         v(cls)
+                    elif cmd == "update":
+                        """ update works with dict or without
+                        dict is translated into normal args so it's a list
+                        we loop over args, 2 at a time, to take key and value
+                        we call the method v with 1 pair at a time untill
+                        args is over"""
+                        for i in range(1, len(args), 2):
+                            x = cls + ' ' + args[0] + ' ' +\
+                                args[i] + ' ' + args[i + 1]
+                            v(x)
                     else:
                         v(cls + ' ' + (" ".join(args)))
 
