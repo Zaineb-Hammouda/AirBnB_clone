@@ -13,6 +13,7 @@ from models.review import Review
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
+from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
 
@@ -38,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def remove_quotations(self, args):
-        """removes the quotations from the arguments"""
+        """removes the quotations and commas from the arguments"""
 
         for i in range(len(args)):
             if args[i][0] in ('"', "'"):
