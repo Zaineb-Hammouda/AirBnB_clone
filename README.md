@@ -1,5 +1,6 @@
 # AirBnB_clone
-![Optional Text](hbnb.png)
+![hbnb](https://github.com/DuncanMoyo/AirBnB_clone/assets/122837330/7aaf05b3-a274-451d-a5ef-1eadb5df8b14)
+
 ## Project Description
 
 This project is issued by Alx_africa and its goal is to deploy on our server a simple copy of the [Airbnb Website](https://www.airbnb.com/).
