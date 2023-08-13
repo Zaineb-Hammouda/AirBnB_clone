@@ -2,7 +2,7 @@
 ![Optional Text](hbnb.png)
 ## Project Description
 
-This project is issued by Alx_africa and its goal is to deploy on our server a simple copy of the AirBnB website [Airbnb Website](https://www.airbnb.com/).
+This project is issued by Alx_africa and its goal is to deploy on our server a simple copy of the [Airbnb Website](https://www.airbnb.com/).
 
 ## Goals
 
