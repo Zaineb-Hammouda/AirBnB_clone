@@ -4,7 +4,7 @@
 
 This project is issued by Alx_africa and its goal is to deploy on our server a simple copy of the AirBnB website [Airbnb Website](https://www.airbnb.com/).
 
-### Goals
+## Goals
 
 This application will be built step by step and after 4 months, we will have a complete web application composed by:
 
