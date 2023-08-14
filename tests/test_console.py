@@ -65,16 +65,17 @@ class TestHBNBCommand_help(unittest.TestCase):
             self.assertEqual(h, output.getvalue().strip())
 
     def test_help_destroy(self):
-        h = ("Destroy command: deletes an instance based on the class name and id\n" +
-            "        Ex: $ destroy BaseModel 1234-1234-1234")
+        h = "Destroy command: deletes an instance based on the " +\
+                "class name and id\n" +\
+            "        Ex: $ destroy BaseModel 1234-1234-1234"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help destroy"))
             self.assertEqual(h, output.getvalue().strip())
 
     def test_help_all(self):
-        h = ("all command: prints all string representation of all\n" +
-        "        instances based or not on the class name.\n" +
-        "        Ex: $ all BaseModel or $ all")
+        h = "all command: prints all string representation of all\n" +\
+            "        instances based or not on the class name.\n" +\
+            "        Ex: $ all BaseModel or $ all"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help all"))
             self.assertEqual(h, output.getvalue().strip())
@@ -87,9 +88,11 @@ class TestHBNBCommand_help(unittest.TestCase):
             self.assertEqual(h, output.getvalue().strip())"""
 
     def test_help_update(self):
-        h = ('Updates an instance based on the class name and id\n' +
-        '        Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com"\n' +
-        '        Usage: update <class name> <id> <attribute name> "<attribute value>"')
+        h = 'Updates an instance based on the class name and id\n' +\
+            '        Ex: $ update BaseModel 1234-1234-1234 email ' +\
+            '"aibnb@mail.com"\n' +\
+            '        Usage: update <class name> <id> ' +\
+            '<attribute name> "<attribute value>"'
 
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help update"))
@@ -734,7 +737,7 @@ class TestHBNBCommand_all(unittest.TestCase):
 
     """def test_all_invalid_class(self):
         correct = ** class doesn't exist **
-        correct = 
+        correct =
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("all MyModel"))
             self.assertEqual(correct, output.getvalue().strip())
