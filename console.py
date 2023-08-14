@@ -88,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
         print(num_of_instances)
 
     def do_destroy(self, line):
-        """Delete command: deletes an instance based on the class name and id
+        """Destroy command: deletes an instance based on the class name and id
         Ex: $ destroy BaseModel 1234-1234-1234
         """
         if (self.errors(line, "destroy") == 1):
